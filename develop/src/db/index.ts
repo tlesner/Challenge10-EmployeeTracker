@@ -28,6 +28,19 @@ export default class Db {
 
     async addNewEmployee(newEmployee: any) {
     console.log("STUB: addNewEmployee", newEmployee)
+        const sqlQuery = "INSERT INTO employee (first_name, last_name, role_id, manager_id, status) VALUES ($1, $2, $3, $4, $5) RETURNING *;";
+
+        const parameters: (string | number) [] = [
+            newEmployee.first_name,
+            newEmployee.last_name,
+            newEmployee.role_id,
+            newEmployee.manager_id,
+            "active"
+        ]
+        return this.query(sqlQuery, parameters);
+    };
+
+    async removeEmployee() {
 
     };
 

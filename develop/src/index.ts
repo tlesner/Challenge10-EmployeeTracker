@@ -60,7 +60,6 @@ function initialPrompts() {
 		])
 		.then((res) => {
 			const choice = res.choice;
-			console.log('choice:', choice); //returns the choice you made.
 
 			switch (choice) {
 				case 'VIEW_EMPLOYEES':
@@ -136,12 +135,9 @@ function addEmployee() {
 		.then((res) => {
 			const firstName = res.first_name;
 			const lastName = res.last_name;
-            console.log('firstname last name:', firstName, lastName )
 
 			db.findAllRoles()
-            .then((response) => {
-                console.log("🚀 findAllRoles ~ response:", response)
-                
+            .then((response) => {                
 				const roles = response?.rows;
 				const roleChoices = roles.map((role) => {
 					const id = role.id;
