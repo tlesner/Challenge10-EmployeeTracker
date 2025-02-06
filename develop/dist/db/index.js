@@ -33,6 +33,26 @@ export default class Db {
         return this.query(sqlQuery, parameters);
     }
     ;
+    async updateEmployee(id, salary, title, department) {
+        const sqlQuery = `UPDATE employee_role SET title=$1, salary=$2, department=$3 WHERE id=$4 RETURNING *;`;
+        const parameters = [
+            title,
+            salary,
+            department,
+            id
+        ];
+        return this.query(sqlQuery, parameters);
+    }
+    ;
+    async updateEmployeeRoleOnly(id, roleId) {
+        const sqlQuery = `UPDATE employee SET role_id=$1 WHERE id=$2 RETURNING *;`;
+        const parameters = [
+            roleId,
+            id
+        ];
+        return this.query(sqlQuery, parameters);
+    }
+    ;
     async removeEmployee(id) {
         console.log(`Deleting this ID:`, id);
         const deleteSqlQuery = `UPDATE employee SET status = $1 WHERE id = $2 RETURNING *;`;

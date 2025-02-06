@@ -38,6 +38,29 @@ export default class Db {
         ]
         return this.query(sqlQuery, parameters);
     };
+    async updateEmployee(id: number, salary: number, title: string, department: number) {
+        const sqlQuery = `UPDATE employee_role SET title=$1, salary=$2, department=$3 WHERE id=$4 RETURNING *;`;
+
+        const parameters: (string | number)[] = [
+            title,
+            salary,
+            department,
+            id
+        ];
+
+        return this.query(sqlQuery, parameters);
+    };
+
+    async updateEmployeeRoleOnly(id: number, roleId: number) {        
+        const sqlQuery = `UPDATE employee SET role_id=$1 WHERE id=$2 RETURNING *;`;
+        const parameters: (string | number)[] = [
+            roleId,
+            id
+        ];
+
+        return this.query(sqlQuery, parameters);
+    };
+
 
     async removeEmployee(id: number) {
         console.log(`Deleting this ID:`, id);
@@ -50,6 +73,7 @@ export default class Db {
         return this.query(deleteSqlQuery, parameters)
 
     };
+
 
     async findAllRoles() {
         const sqlQuery = "SELECT * FROM employee_role WHERE status = $1 ORDER BY salary DESC;"

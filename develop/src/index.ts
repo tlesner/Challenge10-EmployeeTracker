@@ -24,6 +24,10 @@ function initialPrompts() {
                         value: 'ADD_EMPLOYEE',
                     },
                     {
+                        name: 'Update Employee',
+                        value: 'UPDATE_EMPLOYEE',
+                    },
+                    {
                         name: 'Remove Employee',
                         value: 'REMOVE_EMPLOYEE',
                     },
@@ -72,6 +76,10 @@ function initialPrompts() {
 
                 case 'ADD_EMPLOYEE':
                     addEmployee();
+                    break;
+
+                case 'UPDATE_EMPLOYEE':
+                    updateEmployee();
                     break;
 
                 case 'REMOVE_EMPLOYEE':
@@ -316,7 +324,61 @@ function updateEmployeeRole() {
 
         })
 }
+function updateEmployee() {
+    let employeeList: { name: string, value: number }[] = [];
+    let rolesList: { name: string, value: number }[] = [];
+    db.findAllEmployees()
+        .then((result) => {
+            employeeList = result.rows.map(r => {
+                return {
+                    name: r.first_name + ' ' + r.last_name,
+                    value: r.id
+                };
+            });
+        })
+        .then(() => {
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        name: 'id',
+                        message: "Which employee do you want to update?",
+                        choices: employeeList,
+                    },
+                ])
+                .then((result) => {
+                    console.log(result);
+                    const employeeId = result.id;
+                    db.findAllRoles()
+                        .then((result) => {
+                            rolesList = result.rows.map(r => {
+                                return {
+                                    name: r.title,
+                                    value: r.id
+                                };
+                            });
+                        })
+                        .then(() => {
+                            inquirer
+                                .prompt([
+                                    {
+                                        type: 'list',
+                                        name: 'id',
+                                        message: "What role do you want to update the employee to?",
+                                        choices: rolesList,
+                                    },
+                                ])
+                                .then((result) => {
+                                    console.log(result);
+                                    const roleId = result.id;
+                                    db.updateEmployeeRoleOnly(employeeId, roleId)
+                                })
+                                .then(() => initialPrompts());
+                        })
+                });
+        })
 
+};
 function viewRoles() {
     db.findAllRoles()
         .then((result) => {
