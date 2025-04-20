@@ -56,7 +56,7 @@ This application was developed by Thomas Lesner. Here are some guidelines on way
 
 The application is working correctly if you you are able to enter all command line prompts without throwing exceptions.
 
-[Click here]() to watch a walkthrough video on how the application works.
+[Click here](https://app.screencastify.com/v2/manage/videos/Bo9QkzCnwiootiXSBOSV) to watch a walkthrough video on how the application works.
 
 
 ## License
